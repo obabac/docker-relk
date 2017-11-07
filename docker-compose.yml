@@ -14,6 +14,14 @@ services:
     networks:
       - elk
 
+  rabbitmq:
+    build: rabbitmq/
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - elk
+
   logstash:
     build: logstash/
     volumes:
@@ -27,6 +35,7 @@ services:
       - elk
     depends_on:
       - elasticsearch
+      - rabbitmq
 
   kibana:
     build: kibana/
@@ -38,12 +47,6 @@ services:
       - elk
     depends_on:
       - elasticsearch
-
-  rabbitmq:
-    build: rabbitmq/
-    ports:
-      - "5672:5672"
-      - "15672:15672"
 
 networks:
 
